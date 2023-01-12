@@ -8,15 +8,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final int DEVICE_ADMIN_ADD_RESULT_ENABLE = 1111;
     private TextView actionAdminActive;
     private boolean adminActive;
@@ -24,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private ComponentName componentName;
     private Context mContext;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,16 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        // 관리자 권한 요청 응답
         if (requestCode == DEVICE_ADMIN_ADD_RESULT_ENABLE) {
-            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName componentName = new ComponentName(this, AppDeviceAdminReceiver.class);
-
-            // 권한 확인
-            final boolean adminActive = devicePolicyManager.isAdminActive(componentName);
-
-            // 카메라 사용 상태
-            boolean cameraDisabled = devicePolicyManager.getCameraDisabled(componentName);
             setCameraDisabled(true);
 
         }
@@ -121,11 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * 카메라 비활성화
-     *
-     * @param cameraDisabled
-     */
     private void setCameraDisabled(boolean cameraDisabled) {
         DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName componentName = new ComponentName(this, AppDeviceAdminReceiver.class);
